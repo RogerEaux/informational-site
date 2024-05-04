@@ -1,0 +1,13 @@
+{
+  "name": "informational-site",
+  "version": "1.0.0",
+  "description": "This project is an informational site containing 4 pages: index, about, contact-me and 404. This project was created as a practice on Node fundamentals such as file system, HTTP requests and responses, URL routing and events.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
