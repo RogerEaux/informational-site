@@ -1,26 +1,24 @@
-import http from 'node:http';
-import fs from 'node:fs/promises';
-import url from 'node:url';
+import express from 'express';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-const server = http.createServer(async (req, res) => {
-  const query = url.parse(req.url, true);
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-  try {
-    let page;
-    if (query.path === '/') {
-      page = await fs.readFile('./pages/index.html');
-    } else {
-      page = await fs.readFile(`./pages/${query.pathname}.html`);
-    }
-    res.writeHead(200, { ContentType: 'text/html' });
-    res.write(page);
-  } catch (error) {
-    const errorPage = await fs.readFile('./pages/404.html');
-    res.writeHead(404, { ContentType: 'text/html' });
-    res.write(errorPage);
-  }
+const app = express();
+const port = 3000;
 
-  res.end();
+app.get('/', (req, res) => {
+  res.sendFile(`${__dirname}/pages/index.html`);
 });
 
-server.listen(8080);
+app.get('/:page', (req, res) => {
+  const pages = ['about', 'contact'];
+  const pageName = req.params.page;
+  if (pages.includes(pageName)) {
+    res.sendFile(`${__dirname}/pages/${pageName}.html`);
+  } else {
+    res.sendFile(`${__dirname}/pages/404.html`);
+  }
+});
+
+app.listen(port);
